@@ -132,7 +132,7 @@ $db['default'] = array(
 
 	'hostname' => 'localhost',
 
-	'username' => '	avenuine_user',
+	'username' => 'avenuine_user',
 
 	'password' => 'proud@12345',
 
