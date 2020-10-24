@@ -5,6 +5,8 @@ if (!defined('BASEPATH'))
 
 class Home extends CI_Controller {
 
+     
+
     public function __construct($config = 'rest') {
         
        
@@ -20,6 +22,12 @@ class Home extends CI_Controller {
         parent::__construct();
         $this->load->database();
         $this->load->library('paypal');
+
+        $this->load->helper("url"); 
+        $this->load->helper('string');          
+        $this->load->helper('file');          
+        $this->load->helper('form');          
+      
         ini_set("memory_limit", "256M");
 
         $cache_time  =  $this->db->get_where('general_settings',array('type' => 'cache_time'))->row()->value;
@@ -3130,7 +3138,7 @@ function archive_ajax_news_list($para1 = '') {
             $page_data['system_name'] = $this->Crud_model->get_settings_value('general_settings','system_name','value');
             $this->load->view('front/advertise/apply/payment_options',$page_data);
         }
-        else if($para1 == 'payment'){
+        else if($para1 == 'payment'){      
             $user_id            = $this->session->userdata('user_id');
             $advertisement_id   = $this->input->post('advertisement_id');
             $package_id         = $this->input->post('package');
@@ -3141,6 +3149,40 @@ function archive_ajax_news_list($para1 = '') {
                     $amount     = $package['price'];
                 }
             }
+
+             if ($this->input->post('payment_type') == 'ccavenue') {
+               
+                $data['user_id']            = $user_id;
+                $data['advertisement_id']   = $advertisement_id;
+                $data['package_id']         = $package_id;
+                $data['payment_type']       = 'ccavenue';
+                $data['payment_status']     = 'due';
+                $data['payment_details']    = 'none';
+                $data['amount']             = $amount;
+                $data['purchase_datetime']  = time();
+
+
+
+                 $this->db->insert('advertisement_payment', $data);
+                $payment_id           = $this->db->insert_id();
+                
+                  $userdata = $this->db->get_where('user' , array('user_id' => $user_id))->row();
+                  
+                $data['billing_name']  = $userdata->firstname.' '.$userdata->lastname;
+                $data['billing_address']  = $userdata->address1.' '.$userdata->address2;
+                $data['billing_state']  = $userdata->state;
+                $data['billing_zip']  = $userdata->zip;
+                $data['billing_country']  = $userdata->country;
+                $data['billing_tel']  = $userdata->phone;
+                $data['billing_email']  = $userdata->email;
+                  
+                
+
+                $this->load->view('front/ccavenue_form',$data);
+             }
+             
+           
+
             if ($this->input->post('payment_type') == 'paypal') {
                 $data['user_id']            = $user_id;
                 $data['advertisement_id']   = $advertisement_id;
