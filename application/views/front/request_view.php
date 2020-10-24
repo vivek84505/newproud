@@ -11,7 +11,7 @@
 <?php 
 
  	error_reporting(0);
-	print_r($_POST); die();
+	 
 	$merchant_data='';
 	$working_key='74C80A82D8781370E799927473776F3A';//Shared by CCAVENUES
 	$access_code='AVIA89HA67AE71AIEA';//Shared by CCAVENUES
