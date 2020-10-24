@@ -28,7 +28,7 @@ class Ccavenue extends CI_Controller
    
      public function getResponse()
    {
-   		echo 'this is response view';die();
+   		 
    	
   		$this->load->view("front/response_view");
 
