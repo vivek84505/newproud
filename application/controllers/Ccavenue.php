@@ -6,7 +6,7 @@
 class Ccavenue extends CI_Controller
 {
 
-	
+
 
 	function __construct()
 	{
@@ -28,7 +28,7 @@ class Ccavenue extends CI_Controller
    
      public function getResponse()
    {
-
+   		echo 'this is response view';
    	
   		$this->load->view("front/response_view");
 
