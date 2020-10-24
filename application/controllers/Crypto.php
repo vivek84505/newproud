@@ -1,5 +1,7 @@
 <?php
 
+echo "test crypto";
+
 /*
 * @param1 : Plain String
 * @param2 : Working key provided by CCAvenue
