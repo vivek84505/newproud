@@ -10,7 +10,7 @@
 
 <?php 
 
-
+	print_r($_POST); die();
 	error_reporting(0);
 	
 	$merchant_data='';
@@ -20,7 +20,7 @@
 	foreach ($_POST as $key => $value){
 		$merchant_data.=$key.'='.$value.'&';
 	}
-	 
+
 	$encrypted_data=encrypt($merchant_data,$working_key); // Method for encrypting the data.
 
 ?>
