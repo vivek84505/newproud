@@ -29,7 +29,7 @@
             
 
 
-         <form class = "form-horizontal" method="post"  action="<?php echo base_url()."Ccavenue/sendRequest"; ?>" role = "form">
+         <form class = "form-horizontal" method="post"  action="<?php echo base_url()."ccavenue/sendrequest"; ?>" role = "form">
 
          <div class = "form-group">
             <label for = "billing_name" class = "col-sm-2 control-label">Billing Name</label>
