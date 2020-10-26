@@ -1,6 +1,6 @@
 <?php
 
-echo "test crypto";
+ 
 
 /*
 * @param1 : Plain String

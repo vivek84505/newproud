@@ -4,8 +4,8 @@
     ?>
         <div class="cc-selector col-md-4 col-md-offset-2">
             <input id="paypal" type="radio" style="display:block;" checked name="payment_type" value="ccavenue"/>
-            <label class="drinkcard-cc" style="margin-bottom:0px; width:100%; overflow:hidden; height:200px;" for="paypal" onclick="radio_check('paypal')">
-                <img class="image_delay" src="<?php echo img_loading(); ?>" data-src="<?php echo base_url(); ?>uploads/others/ccavenue.png" width="100%" height="100%" style=" text-align-last:center;" alt="<?php echo translate('paypal');?>" />
+            <label class="drinkcard-cc" style="margin-bottom:0px; width:100%; overflow:hidden; height:200px;" for="ccavenue" onclick="radio_check('paypal')">
+                <img class="image_delay" src="<?php echo img_loading(); ?>" data-src="<?php echo base_url(); ?>uploads/others/ccavenue.png" width="100%" height="100%" style=" text-align-last:center;" alt="<?php echo translate('ccavenue');?>" />
             </label>
         </div>
     <?php
@@ -38,17 +38,7 @@
                     }
                 });
 
-                $('#customButtong').on('click', function(e) {
-                    var total = $('#step-1').find('input[type="radio"]:checked').data('amount');
-                    total = total*100;
-                    handler.open({
-                            name: '<?php echo $system_name; ?>',
-                            description: '<?php echo translate('pay_with_stripe'); ?>',
-                            amount: total
-                    });
-                    e.preventDefault();
-                });
-
+             
                 // Close Checkout on page navigation
                 $(window).on('popstate', function() {
                     handler.close();

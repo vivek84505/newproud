@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
 class Home extends CI_Controller {
 
      
-
+    protected  $payu_merchant_key = 'HEb0retZ';
     public function __construct($config = 'rest') {
         
        
@@ -3182,6 +3182,57 @@ function archive_ajax_news_list($para1 = '') {
              }
              
            
+           if ($this->input->post('payment_type') == 'payu') {
+               
+                $data['user_id']            = $user_id;
+                $data['advertisement_id']   = $advertisement_id;
+                $data['package_id']         = $package_id;
+                $data['payment_type']       = 'ccavenue';
+                $data['payment_status']     = 'due';
+                $data['payment_details']    = 'none';
+                $data['amount']             = $amount;
+                $data['purchase_datetime']  = time();
+
+
+
+                 $this->db->insert('advertisement_payment', $data);
+                $payment_id           = $this->db->insert_id();
+                
+                  $userdata = $this->db->get_where('user' , array('user_id' => $user_id))->row();
+                  
+                $data['billing_name']  = $userdata->firstname.' '.$userdata->lastname;
+                $data['billing_address']  = $userdata->address1.' '.$userdata->address2;
+                $data['billing_state']  = $userdata->state;
+                $data['billing_zip']  = $userdata->zip;
+                $data['billing_country']  = $userdata->country;
+                $data['billing_tel']  = $userdata->phone;
+                $data['billing_email']  = $userdata->email;
+                $data['mkey']  = $this->payu_merchant_key;
+                $data['txnid']  = $payment_id;
+                $data['productinfo']  = $payment_id;
+                               
+                //Payu payment form data
+
+                $MERCHANT_KEY = $this->payu_merchant_key;
+                $SALT = "OuHK3LYUma";
+
+                $txnid = substr(hash('sha256', mt_rand() . microtime()), 0, 20);
+
+                $udf1='';
+                $udf2='';
+                $udf3='';
+                $udf4='';
+                $udf5='';
+
+                $hashstring = $MERCHANT_KEY . '|' . $payment_id . '|' . $data['amount']  . '|' . $productinfo . '|'. $data['billing_name'] . '|' . $data['billing_email'] .'|'.$udf1.'|' .$udf2.'|' .$udf3.'|'.$udf4.'|'.$udf5.'||||||'. $SALT;
+
+                $hash = strtolower(hash('sha512', $hashstring));
+                $data['hash'] = $hash;
+                
+                
+
+                $this->load->view('front/payu_addpayment_form',$data);
+             }
 
             if ($this->input->post('payment_type') == 'paypal') {
                 $data['user_id']            = $user_id;
